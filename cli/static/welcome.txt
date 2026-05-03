@@ -1,0 +1,9 @@
+
+╔══════════════════════════════════════════════════════════════╗
+║                                                              ║
+║   🐶  InvestAgents  —  Multi-Agent Long-Term Investing    ║
+║                                                              ║
+║   Thesis-driven analysis · Bull/Bear debate · Portfolio     ║
+║   Moat · Valuation · Growth · Macro · SEC Filings · FRED   ║
+║                                                              ║
+╚══════════════════════════════════════════════════════════════╝
