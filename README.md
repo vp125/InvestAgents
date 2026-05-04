@@ -63,6 +63,12 @@ InvestAgents addresses **all of these** with a team of 8 specialized LLM agents 
 | 📋 **Thesis Manager** | Final thesis: conviction, catalysts, exit criteria | Reads debate + all reports |
 | 📊 **Portfolio Constructor** | Multi-stock allocation, sector balance, rebalancing | Reads all theses + macro |
 
+> ⚡ **New: Parallel Analysts** — Moat, Valuation, Growth, and Macro analysts now run
+> concurrently via thread pooling (1.74× speedup in benchmarks). The 4 analysts are
+> fully independent — each pulls its own data and writes to separate state fields —
+> so they execute in parallel without any coordination overhead.
+> Set `parallel_analysts: false` in config to revert to sequential mode.
+
 ### Data Sources (multi-vendor with fallback)
 
 | Category | Primary | Fallback |
@@ -109,6 +115,24 @@ export FRED_API_KEY="..."
 > # Edit my_config.sh with your keys, then:
 > source my_config.sh
 > ```
+
+### 4. Web Dashboard 🖥️
+
+View all your analyses in a browser — no extra dependencies needed:
+
+```bash
+# Launch the dashboard
+python web/server.py                # → http://localhost:8080
+invest-agents-dashboard             # if installed via pip
+invest-agents --dashboard           # from the CLI
+```
+
+Features:
+- 📋 **Sidebar** lists all past analyses by ticker + date, newest first
+- 🏷️ **Badges** show which reports are available (thesis, moat, val, growth, macro, debate)
+- 📑 **Tabbed viewing** — switch between Investment Thesis, Moat, Valuation, Growth, Macro, and Bull/Bear Debate
+- 🎨 **Full markdown** rendering with tables, code blocks, and dark theme
+- 🔄 **Auto-refresh** — hit refresh after running new analyses
 
 ### 3. Run Your First Analysis
 
@@ -186,6 +210,7 @@ Set via environment variables or `config.sh`:
 | `INVESTAGENTS_DEEP_MODEL` | `deepseek-chat` | Model for thesis synthesis & portfolio construction |
 | `INVESTAGENTS_QUICK_MODEL` | `deepseek-chat` | Model for analyst reports & debate |
 | `INVESTAGENTS_DEBATE_ROUNDS` | `1` | Bull/Bear debate rounds: `0` (off), `1` (standard), `2` (deep) |
+| `INVESTAGENTS_PARALLEL_ANALYSTS` | `true` | Run Moat/Valuation/Growth/Macro analysts in parallel (1.7× faster) |
 | `INVESTAGENTS_OUTPUT_LANGUAGE` | `English` | Output language for all reports and theses |
 | `INVESTAGENTS_RESULTS_DIR` | `~/.invest_agents/results` | Where results are saved |
 | `INVESTAGENTS_CACHE_DIR` | `~/.invest_agents/cache` | Data cache location |
@@ -211,11 +236,13 @@ Set via environment variables or `config.sh`:
 
 - [x] Multi-source data layer with fallback chains
 - [x] 4 deep-dive analysts (Moat, Valuation, Growth, Macro)
+- [x] Parallel analyst execution (1.74× speedup via thread pooling)
 - [x] Bull/Bear thesis debate
 - [x] Thesis Manager with structured output
 - [x] Portfolio Constructor (multi-stock allocation)
 - [x] SEC EDGAR + FRED integration
 - [x] Interactive CLI with live progress dashboard
+- [x] Web dashboard for viewing past analyses (zero-dependency, dark theme)
 - [ ] Thesis memory log (track outcomes over quarters/years)
 - [ ] Thesis review scheduler (periodic re-evaluation)
 - [ ] Backtesting framework (full market cycles)

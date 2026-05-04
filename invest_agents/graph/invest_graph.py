@@ -108,6 +108,7 @@ class InvestAgentsGraph:
             self.deep_llm,
             self.tool_nodes,
             self.conditional,
+            parallel_analysts=self.config.get("parallel_analysts", True),
         )
         self.portfolio_setup = PortfolioGraphSetup(self.deep_llm)
 

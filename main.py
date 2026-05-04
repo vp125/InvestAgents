@@ -14,6 +14,12 @@ Environment variables needed:
 
 import sys
 import logging
+from pathlib import Path
+
+# Ensure the invest_agents package is discoverable even without pip install
+_PROJECT_ROOT = Path(__file__).resolve().parent
+if str(_PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(_PROJECT_ROOT))
 
 from dotenv import load_dotenv
 

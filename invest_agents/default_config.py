@@ -56,6 +56,7 @@ DEFAULT_CONFIG = {
     # --- Analysis depth ---
     "years_of_history": 7,               # Years of financials to pull
     "max_debate_rounds": 2,             # Bull/Bear debate rounds
+    "parallel_analysts": True,           # Run Moat/Valuation/Growth/Macro in parallel
     "min_market_cap_billions": 1.0,     # Filter out micro-caps (set 0 to disable)
 
     # --- Portfolio construction ---

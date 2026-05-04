@@ -57,6 +57,7 @@ all-providers = [
 
 [project.scripts]
 invest-agents = "cli.main:main"
+invest-agents-dashboard = "web.server:main"
 
 [tool.setuptools.packages.find]
-include = ["invest_agents*"]
+include = ["invest_agents*", "cli*", "web*"]

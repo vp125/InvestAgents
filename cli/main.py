@@ -19,6 +19,11 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Optional
 
+# Ensure the invest_agents package is discoverable even without pip install
+_PROJECT_ROOT = Path(__file__).resolve().parent.parent
+if str(_PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(_PROJECT_ROOT))
+
 from dotenv import load_dotenv
 from rich.console import Console
 from rich.panel import Panel
@@ -325,8 +330,13 @@ class AnalysisProgress:
 
 def main():
     """Main CLI entry point."""
-    # Quick mode: if tickers passed as args, skip interactive menus
     args = sys.argv[1:]
+
+    # Dashboard mode
+    if "--dashboard" in args or "--web" in args:
+        return _run_dashboard(args)
+
+    # Quick mode: if tickers passed as args, skip interactive menus
     quick_mode = len(args) > 0 and not args[0].startswith("-")
 
     if quick_mode:
@@ -334,6 +344,22 @@ def main():
 
     # Interactive mode
     return _run_interactive_mode()
+
+
+def _run_dashboard(args: list[str]):
+    """Launch the web dashboard."""
+    import subprocess
+    import sys
+
+    port = "8080"
+    for a in args:
+        if a.startswith("--port="):
+            port = a.split("=", 1)[1]
+    
+    server_path = Path(__file__).resolve().parent.parent / "web" / "server.py"
+    console.print(f"[bold green]🐶 Launching dashboard on http://localhost:{port}[/bold green]")
+    console.print(f"[dim]Press Ctrl+C to stop.[/dim]")
+    subprocess.run([sys.executable, str(server_path), "--port", port])
 
 
 def _run_quick_mode(tickers: list[str]):
